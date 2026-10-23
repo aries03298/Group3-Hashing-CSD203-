@@ -1,4 +1,4 @@
-class NoPerturbHashTable:
+class No_Perturb_Hash_Table:
     def __init__(self, capacity=16):
         self.capacity = capacity
         self.mask = capacity - 1
@@ -7,7 +7,7 @@ class NoPerturbHashTable:
         self.count = 0
     def _hash(self, key):
         return hash(key)
-    def insert(self, key, value):
+    def put(self, key, value):
         hash_val = self._hash(key)
         i = hash_val & self.mask
         probes = 1
@@ -15,7 +15,7 @@ class NoPerturbHashTable:
             if self.slots[i] == key:
                 self.values[i] = value
                 return probes
-            i = (5 * i + 1) & self.mask
+            i = (i + 1) & self.mask
             probes += 1
         self.slots[i] = key
         self.values[i] = value
@@ -28,6 +28,6 @@ class NoPerturbHashTable:
         while self.slots[i] is not None:
             if self.slots[i] == key:
                 return self.values[i], probes
-            i = (5 * i + 1) & self.mask
+            i = (i + 1) & self.mask
             probes += 1
         return None, probes
