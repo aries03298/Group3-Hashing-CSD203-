@@ -1,5 +1,5 @@
 class No_Perturb_Hash_Table:
-    def __init__(self, capacity=16):
+    def __init__(self, capacity=2**18):
         self.capacity = capacity
         self.mask = capacity - 1
         self.slots = [None] * capacity
@@ -17,6 +17,8 @@ class No_Perturb_Hash_Table:
                 return probes
             i = (i + 1) & self.mask
             probes += 1
+            if probes > self.capacity:  
+                raise Exception("Hash table full")
         self.slots[i] = key
         self.values[i] = value
         self.count += 1

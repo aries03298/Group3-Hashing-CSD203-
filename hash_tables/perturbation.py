@@ -4,6 +4,7 @@ class Perturbation_Probing_Hash_Table:
         self.mask = capacity - 1
         self.keys = [None] * capacity
         self.values = [None] * capacity
+        self.slots = self.keys
         self.tombstone_obj = object()
         self.size = 0
     def put(self, key: int, value) -> int:
