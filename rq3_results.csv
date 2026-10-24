@@ -1,4 +1,25 @@
-Algorithm,Probes,Max Cluster,Avg Cluster
-Linear Probing,499500,1000,1000.0
-No-Perturb,500500,11,2.0161290322580645
-Perturbation Probing,2968,3,1.0660980810234542
+Algorithm,Load Factor,Key Family,Insert Probes (Avg),Miss Probes (Avg),Max Cluster,Avg Cluster
+Linear Probing,0.5,K1,0.5,1.5,44,2.54
+No-Perturb,0.5,K1,1.5,2.49,17,2.0
+Perturbation Probing,0.5,K1,1.39,1.97,19,2.0
+Linear Probing,0.5,K2,0.0,33476.14,82496,65536.0
+No-Perturb,0.5,K2,1.0,1.99,82496,65536.0
+Perturbation Probing,0.5,K2,1.0,2.03,82496,65536.0
+Linear Probing,0.5,K3,1.5,1.28,4,4.0
+No-Perturb,0.5,K3,2.5,2.23,4,4.0
+Perturbation Probing,0.5,K3,2.34,2.02,15,1.88
+Linear Probing,0.5,K4,1023.5,496.99,2048,2048.0
+No-Perturb,0.5,K4,1024.5,473.99,10,1.97
+Perturbation Probing,0.5,K4,7.26,2.01,58,1.92
+Linear Probing,0.66,K1,0.96,3.32,85,4.02
+No-Perturb,0.66,K1,1.96,4.56,31,2.95
+Perturbation Probing,0.66,K1,1.63,2.85,32,2.95
+Linear Probing,0.66,K2,0.0,58427.38,124439,86507.5
+No-Perturb,0.66,K2,1.0,3.22,124439,86507.5
+Perturbation Probing,0.66,K2,1.0,3.09,124439,86507.5
+Linear Probing,0.66,K3,2.16,2.09,6,5.28
+No-Perturb,0.66,K3,3.16,3.09,6,3.07
+Perturbation Probing,0.66,K3,2.68,3.15,21,2.74
+Linear Probing,0.66,K4,1351.18,861.02,2704,2703.36
+No-Perturb,0.66,K4,1352.18,838.68,16,2.95
+Perturbation Probing,0.66,K4,13.57,3.32,98,2.94
