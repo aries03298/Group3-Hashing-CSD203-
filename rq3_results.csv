@@ -1,0 +1,4 @@
+Algorithm,Probes,Max Cluster,Avg Cluster
+Linear Probing,499500,1000,1000.0
+No-Perturb,500500,11,2.0161290322580645
+Perturbation Probing,2968,3,1.0660980810234542
