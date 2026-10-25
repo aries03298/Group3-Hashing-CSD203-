@@ -2,7 +2,7 @@ class Perturbation_Probing_Hash_Table:
     def __init__(self, capacity: int = 2**18):
         self.capacity = capacity
         self.mask = capacity - 1
-        self.keys = [None] * capacity
+        self.slots = [None] * capacity  
         self.values = [None] * capacity
         self.slots = self.keys
         self.tombstone_obj = object()
