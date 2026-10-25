@@ -1,81 +1,47 @@
 class Perturbation_Probing_Hash_Table:
-    def __init__(self, capacity=16):
+    def __init__(self, capacity: int = 2**18):
         self.capacity = capacity
         self.mask = capacity - 1
         self.slots = [None] * capacity  
         self.values = [None] * capacity
-        self.count = 0
-
-    def _hash(self, key):
-        return hash(key)
-
-    def insert(self, key, value):
-        hash_val = self._hash(key)
-        perturb = hash_val if hash_val >= 0 else -hash_val
-        i = hash_val & self.mask
-        
-        probes = 1
+        self.slots = self.keys
+        self.tombstone_obj = object()
+        self.size = 0
+    def put(self, key: int, value) -> int:
+        h = hash(key)
+        idx = h & self.mask
+        probes = 0
         first_tombstone = -1
-
-        for _ in range(self.capacity):
-            if self.slots[i] is None:
-                target = first_tombstone if first_tombstone != -1 else i
-                self.slots[target] = key
-                self.values[target] = value
-                self.count += 1
-                return probes
-
-            if self.slots[i] == key:
-                self.values[i] = value
-                return probes
-
-            if self.slots[i] == "TOMBSTONE":
+        perturb = h
+        while self.keys[idx] is not None:
+            probes += 1
+            if self.keys[idx] is self.tombstone_obj:
                 if first_tombstone == -1:
-                    first_tombstone = i
-
+                    first_tombstone = idx
+            elif self.keys[idx] == key:
+                self.values[idx] = value
+                return probes
+            idx = (5 * idx + 1 + perturb) & self.mask
             perturb >>= 5
-            i = (5 * i + perturb + 1) & self.mask
+            if probes >= self.capacity:
+                raise Exception("Hash table full")
+        target_idx = first_tombstone if first_tombstone != -1 else idx
+        if first_tombstone == -1:
+            self.size += 1
+        self.keys[target_idx] = key
+        self.values[target_idx] = value
+        return probes
+    def get(self, key: int) -> tuple[any, int]:
+        h = hash(key)
+        idx = h & self.mask
+        probes = 0
+        perturb = h
+        while self.keys[idx] is not None:
             probes += 1
-
-        if first_tombstone != -1:
-            self.slots[first_tombstone] = key
-            self.values[first_tombstone] = value
-            self.count += 1
-            return probes
-
-        raise OverflowError("Bảng băm đã đầy hoàn toàn!")
-
-    def lookup(self, key):
-        hash_val = self._hash(key)
-        perturb = hash_val if hash_val >= 0 else -hash_val
-        i = hash_val & self.mask
-        probes = 1
-
-        for _ in range(self.capacity):
-            if self.slots[i] is None:
-                return None, probes
-            if self.slots[i] == key:
-                return self.values[i], probes
+            if self.keys[idx] is not self.tombstone_obj and self.keys[idx] == key:
+                return self.values[idx], probes
+            idx = (5 * idx + 1 + perturb) & self.mask
             perturb >>= 5
-            i = (5 * i + perturb + 1) & self.mask
-            probes += 1
-
+            if probes >= self.capacity:
+                break
         return None, probes
-
-    def remove(self, key):
-        hash_val = self._hash(key)
-        perturb = hash_val if hash_val >= 0 else -hash_val
-        i = hash_val & self.mask
-
-        for _ in range(self.capacity):
-            if self.slots[i] is None:
-                return False
-            if self.slots[i] == key:
-                self.slots[i] = "TOMBSTONE"
-                self.values[i] = None
-                self.count -= 1
-                return True
-            perturb >>= 5
-            i = (5 * i + perturb + 1) & self.mask
-
-        return False
