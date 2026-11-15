@@ -13,6 +13,9 @@ sys.path.insert(0, ROOT)
 CONSISTENT = "--consistent" in sys.argv
 LINEAR_OFFSET = 0 if CONSISTENT else 1
 
+RESULTS = os.path.join(ROOT, "results")
+os.makedirs(RESULTS, exist_ok=True)
+
 from hash_tables.linear_probing import LinearProbingHashTable
 from hash_tables.no_perturb import No_Perturb_Hash_Table as NoPerturbHashTable
 from hash_tables.perturbation import Perturbation_Probing_Hash_Table
@@ -100,7 +103,7 @@ for lf in LOAD_FACTORS:
             print(f"    -> {name:20s} | Kích thước cụm Max: {clusters['max_cluster_size']}")
 
 # Xuất kết quả
-with open(os.path.join(ROOT, "rq3_results.csv"), "w", newline="", encoding="utf-8") as f:
+with open(os.path.join(RESULTS, "rq3_results.csv"), "w", newline="", encoding="utf-8") as f:
     writer = csv.DictWriter(f, fieldnames=[
         "Algorithm", "Load Factor", "Key Family", 
         "Insert Probes (Avg)", "Miss Probes (Avg)", 

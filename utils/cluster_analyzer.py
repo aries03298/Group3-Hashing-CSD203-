@@ -1,10 +1,17 @@
 def analyze_clusters(hash_table, wrap=False):
+    """Phân tích các cụm ô liên tiếp đang chứa khóa.
+
+    wrap=False (mặc định): giữ cách tính của số liệu RQ3 gốc, cụm cuối mảng và cụm đầu mảng tính riêng.
+    wrap=True: nối cụm cuối mảng với cụm đầu mảng (đúng với dò vòng tròn).
+    """
     slots = hash_table.slots
     tomb = getattr(hash_table, "tombstone_obj", None)
+
     def occupied(item):
         if item is None or item is tomb:
             return False
         return not (isinstance(item, str) and item == "TOMBSTONE")
+
     flags = [occupied(x) for x in slots]
     clusters = []
     current = 0
@@ -20,6 +27,7 @@ def analyze_clusters(hash_table, wrap=False):
             clusters[0] += current
         else:
             clusters.append(current)
+
     max_cluster = max(clusters) if clusters else 0
     avg_cluster = sum(clusters) / len(clusters) if clusters else 0.0
     return {"clusters": clusters, "total_clusters": len(clusters),

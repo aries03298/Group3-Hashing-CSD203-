@@ -1,9 +1,16 @@
 import csv
+import os
+
 import matplotlib.pyplot as plt
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+RESULTS = os.path.join(ROOT, "results")
+FIGURES = os.path.join(ROOT, "figures")
+os.makedirs(FIGURES, exist_ok=True)
 
 
 def plot(filename, column):
-    with open(filename, encoding="utf-8") as file:
+    with open(os.path.join(RESULTS, filename), encoding="utf-8") as file:
         rows = list(csv.DictReader(file))
 
     for name, offset in [("Chaining", -0.2), ("Linear", 0.2)]:
@@ -21,7 +28,7 @@ def plot(filename, column):
     plt.ylabel(column)
     plt.legend()
     plt.tight_layout()
-    plt.savefig(column + ".png")
+    plt.savefig(os.path.join(FIGURES, "rq2_" + column + ".png"))
     plt.close()
 
 
@@ -31,4 +38,4 @@ plot("rq2_time.csv", "hit_us")
 plot("rq2_time.csv", "miss_us")
 plot("rq2_time.csv", "build_ms")
 
-print("Đã lưu 5 biểu đồ PNG")
+print("Đã lưu 5 biểu đồ PNG vào figures/")

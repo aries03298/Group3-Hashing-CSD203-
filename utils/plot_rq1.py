@@ -4,8 +4,10 @@ import os
 import matplotlib.pyplot as plt
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FIGURES = os.path.join(ROOT, "figures")
+os.makedirs(FIGURES, exist_ok=True)
 
-with open(os.path.join(ROOT, "rq1_results.csv"), encoding="utf-8") as file:
+with open(os.path.join(ROOT, "results", "rq1_results.csv"), encoding="utf-8") as file:
     rows = list(csv.DictReader(file))
 
 SIZES = sorted({int(r["M"]) for r in rows})
@@ -46,7 +48,7 @@ def draw(hit_col, miss_col, hit_label, miss_label, filename):
 
     axes[0][0].legend()
     fig.tight_layout()
-    fig.savefig(os.path.join(ROOT, filename), dpi=150)
+    fig.savefig(os.path.join(FIGURES, filename), dpi=150)
     plt.close(fig)
 
 
@@ -58,4 +60,4 @@ draw("hit_us", "miss_us",
      "Thời gian mỗi get, µs (tìm thấy)", "Thời gian mỗi get, µs (không thấy, log)",
      "rq1_time.png")
 
-print("Đã lưu: rq1_probes.png, rq1_time.png")
+print("Đã lưu: figures/rq1_probes.png, figures/rq1_time.png")

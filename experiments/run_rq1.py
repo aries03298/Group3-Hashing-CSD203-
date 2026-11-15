@@ -93,7 +93,9 @@ for M in SIZES:
 
 # K1 giữ tên cũ để plot_rq1.py dùng được; họ khóa khác ghi file riêng, không đè nhau.
 name_csv = "rq1_results.csv" if args.family == "K1" else "rq1_results_%s.csv" % args.family
-filename = os.path.join(ROOT, name_csv)
+RESULTS = os.path.join(ROOT, "results")
+os.makedirs(RESULTS, exist_ok=True)
+filename = os.path.join(RESULTS, name_csv)
 with open(filename, "w", newline="", encoding="utf-8") as file:
     writer = csv.writer(file)
     writer.writerow([

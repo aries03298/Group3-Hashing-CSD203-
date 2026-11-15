@@ -152,7 +152,9 @@ for family, generate in generators:
             build_ms, chain, cluster, output_check,
         ])
 
-filename = os.path.join(ROOT, "rq2_count.csv" if args.count else "rq2_time.csv")
+RESULTS = os.path.join(ROOT, "results")
+os.makedirs(RESULTS, exist_ok=True)
+filename = os.path.join(RESULTS, "rq2_count.csv" if args.count else "rq2_time.csv")
 
 with open(filename, "w", newline="", encoding="utf-8") as file:
     writer = csv.writer(file)
