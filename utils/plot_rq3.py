@@ -1,10 +1,21 @@
 import csv
+import os
+import sys
+
 import numpy as np
 import matplotlib.pyplot as plt
 
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FIGURES = os.path.join(ROOT, "figures")
+os.makedirs(FIGURES, exist_ok=True)
+
+# Mặc định đọc results/rq3_results.csv; có thể truyền tên file khác, ví dụ:
+#   python utils/plot_rq3.py rq3_results_old.csv
+CSV_NAME = sys.argv[1] if len(sys.argv) > 1 else "rq3_results.csv"
+
 # 1. Đọc dữ liệu từ file rq3_results.csv
 data = []
-with open("rq3_results.csv", mode="r", encoding="utf-8") as f:
+with open(os.path.join(ROOT, "results", CSV_NAME), mode="r", encoding="utf-8") as f:
     reader = csv.DictReader(f)
     for row in reader:
         data.append({
@@ -68,7 +79,7 @@ def plot_metric(metric_name, ylabel, filename, use_log=True):
         ax.legend(fontsize=10)
 
     plt.tight_layout(rect=[0, 0, 1, 0.94])
-    plt.savefig(filename, dpi=300)
+    plt.savefig(os.path.join(FIGURES, filename), dpi=300)
     plt.close()
     print(f"-> Đã xuất biểu đồ thành công: {filename}")
 
@@ -81,4 +92,4 @@ plot_metric("Insert Probes (Avg)", "Số lượt dò trung bình (Probes)", "rq3
 plot_metric("Miss Probes (Avg)", "Số lượt dò thất bại trung bình (Probes)", "rq3_miss_probes.png", use_log=True)
 plot_metric("Max Cluster", "Kích thước cụm lớn nhất (Max Cluster)", "rq3_max_cluster.png", use_log=True)
 
-print("Hoàn tất! Bạn hãy kiểm tra 3 file ảnh .png ở cột bên trái.")
+print("Hoàn tất! Ảnh được lưu trong thư mục figures/.")
