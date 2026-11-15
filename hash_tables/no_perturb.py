@@ -1,13 +1,5 @@
 TOMBSTONE = "TOMBSTONE"
-
-
 class No_Perturb_Hash_Table:
-    """Giống dict của CPython nhưng BỎ perturb: i = (5*i + 1) & mask.
-
-    Dùng để đối chứng: khóa cùng ô băm đầu sẽ đi theo đúng một chuỗi dò.
-    Số lượt dò đếm từ 1 và tính cả ô cuối cùng được xét.
-    """
-
     def __init__(self, capacity=2**18):
         if capacity <= 0 or capacity & (capacity - 1):
             raise ValueError("capacity phải là lũy thừa của 2")
@@ -18,10 +10,8 @@ class No_Perturb_Hash_Table:
         self.values = [None] * capacity
         self.count = 0
         self.size = 0
-
     def _next(self, i):
         return (5 * i + 1) & self.mask
-
     def put(self, key, value):
         i = hash(key) & self.mask
         first_tombstone = -1
@@ -48,7 +38,6 @@ class No_Perturb_Hash_Table:
         self.count += 1
         self.size = self.count
         return probes
-
     def lookup(self, key):
         i = hash(key) & self.mask
         probes = 1
@@ -61,5 +50,4 @@ class No_Perturb_Hash_Table:
             i = self._next(i)
             probes += 1
         return None, probes
-
     get = lookup
